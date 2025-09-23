@@ -1,0 +1,201 @@
+1. Computed & Watch – Tính toán & theo dõi dữ liệu
+Computed
+•	Dùng để tính toán giá trị mới dựa trên dữ liệu có sẵn.
+•	Tự động cache kết quả → chỉ chạy lại khi dependencies (biến phụ thuộc) thay đổi.
+•	Thường dùng để xử lý dữ liệu hiển thị.
+<script setup>
+import { ref, computed } from 'vue'
+
+const firstName = ref('Nguyen')
+const lastName = ref('Thoai')
+
+const fullName = computed(() => {
+  console.log("Computed chạy")
+  return firstName.value + " " + lastName.value
+})
+</script>
+
+<template>
+  <p>Họ và tên: {{ fullName }}</p>
+</template>
+Watch
+•	Dùng để theo dõi sự thay đổi của biến và thực hiện side-effect (gọi API, log, cập nhật…).
+•	Không cache như computed.
+<script setup>
+import { ref, watch } from 'vue'
+
+const count = ref(0)
+
+watch(count, (newVal, oldVal) => {
+  console.log(`Count thay đổi: ${oldVal} → ${newVal}`)
+})
+</script>
+
+<template>
+  <button @click="count++">Tăng: {{ count }}</button>
+</template>
+ Khi nào dùng?
+•	computed: khi cần giá trị mới từ dữ liệu cũ.
+•	watch: khi cần theo dõi và thực hiện hành động phụ.
+________________________________________
+2. Lifecycle Hooks – Móc vòng đời component
+•	Là các giai đoạn trong vòng đời component: tạo → mount → cập nhật → hủy.
+•	Vue cung cấp hook để chạy code ở từng giai đoạn.
+Ví dụ
+<script setup>
+import { onMounted, onUpdated, onUnmounted } from 'vue'
+
+onMounted(() => {
+  console.log("Component được mount vào DOM")
+})
+
+onUpdated(() => {
+  console.log("Component được cập nhật")
+})
+
+onUnmounted(() => {
+  console.log("Component bị hủy")
+})
+</script>
+
+<template>
+  <p>Demo Lifecycle Hook</p>
+</template>
+ Thường dùng để: gọi API khi mount, cleanup khi unmount.
+________________________________________
+3. Options API vs Composition API
+ Options API
+•	Tổ chức code bằng object options (data, methods, computed, watch…).
+•	Dễ học cho người mới nhưng khi component lớn sẽ khó quản lý.
+<script>
+export default {
+  data() {
+    return { count: 0 }
+  },
+  methods: {
+    increase() { this.count++ }
+  }
+}
+</script>
+
+<template>
+  <button @click="increase">{{ count }}</button>
+</template>
+Composition API
+•	Tổ chức code bằng hàm setup() hoặc <script setup>.
+•	Dễ tái sử dụng logic, phù hợp dự án lớn.
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(0)
+const increase = () => count.value++
+</script>
+
+<template>
+  <button @click="increase">{{ count }}</button>
+</template>
+ Khi nào dùng?
+•	Options API: học nhanh, dự án nhỏ.
+•	Composition API: dự án lớn, cần tách logic.
+________________________________________
+4. Vue Router – Điều hướng SPA
+•	Dùng để xây dựng Single Page Application (SPA).
+•	Cho phép chuyển trang mà không reload toàn bộ web.
+Cài đặt
+npm install vue-router
+Cấu hình
+// router/index.js
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
+import About from '../views/About.vue'
+
+const routes = [
+  { path: '/', component: Home },
+  { path: '/about', component: About }
+]
+
+export default createRouter({
+  history: createWebHistory(),
+  routes
+})
+Sử dụng
+<template>
+  <nav>
+    <router-link to="/">Trang chủ</router-link> |
+    <router-link to="/about">Giới thiệu</router-link>
+  </nav>
+  <router-view></router-view>
+</template>
+________________________________________
+5. Pinia / Vuex – Quản lý trạng thái
+Vuex (cũ hơn)
+•	State management pattern cho Vue 2/3.
+•	Nặng, boilerplate nhiều.
+ Pinia (mới hơn, thay thế Vuex)
+•	Nhẹ, dễ viết, hỗ trợ TypeScript tốt.
+Ví dụ Pinia
+npm install pinia
+// store/counter.js
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore('counter', {
+  state: () => ({ count: 0 }),
+  actions: {
+    increment() { this.count++ }
+  }
+})
+<script setup>
+import { useCounterStore } from './store/counter'
+const counter = useCounterStore()
+</script>
+
+<template>
+  <button @click="counter.increment">{{ counter.count }}</button>
+</template>
+________________________________________
+6. Slots – Nội dung linh hoạt
+•	Cho phép truyền nội dung từ component cha vào component con.
+Ví dụ
+<!-- Card.vue -->
+<template>
+  <div class="card">
+    <slot></slot>
+  </div>
+</template>
+<!-- App.vue -->
+<Card>
+  <h2>Tiêu đề</h2>
+  <p>Nội dung bên trong card</p>
+</Card>
+Có named slot (<slot name="header">) để chia vùng.
+________________________________________
+7. Teleport / Suspense
+Teleport
+•	Dùng để render nội dung ra ngoài cây DOM hiện tại.
+•	Ví dụ: modal, tooltip.
+<template>
+  <teleport to="body">
+    <div class="modal">Tôi là modal</div>
+  </teleport>
+</template>
+Suspense
+•	Dùng để chờ component async (vd: gọi API).
+•	Có fallback khi đang tải.
+<Suspense>
+  <template #default>
+    <AsyncComponent />
+  </template>
+  <template #fallback>
+    <p>Đang tải...</p>
+  </template>
+</Suspense>
+________________________________________
+Tóm lại:
+•	computed/watch: xử lý dữ liệu & theo dõi.
+•	Lifecycle hooks: điều khiển hành vi component theo vòng đời.
+•	Options vs Composition: cách tổ chức code.
+•	Router: điều hướng trang.
+•	Pinia/Vuex: quản lý state toàn cục.
+•	Slots: tái sử dụng UI linh hoạt.
+•	Teleport/Suspense: nâng cao (modal, chờ dữ liệu async).
+
