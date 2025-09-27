@@ -1,3 +1,4 @@
+<template>
 <main class="content container">
       <!-- Promotions -->
       <section>
@@ -21,7 +22,8 @@
       </section>
 
 </main>
-<script>
+</template>
+<script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue"
 // --- Data khác
 const promotions = ref([
