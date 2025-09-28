@@ -1,5 +1,10 @@
 import { createApp } from 'vue'
-import '../css/main.css'   // CSS bên ngoài src
-import App from './App.vue' // App.vue trong cùng thư mục
+import '../css/admin.css'
+import '../css/main.css'
+import App from "./App.vue"
+import router from "./router/routes.js"
 
-createApp(App).mount('#app')
+
+const app = createApp(App)
+app.use(router)
+app.mount('#app')   

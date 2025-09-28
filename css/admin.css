@@ -1,0 +1,84 @@
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.sidebar {
+  width: 220px;
+  background: #2c3e50;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+  background: #34495e;
+}
+
+.main-content {
+  flex: 1;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.logout {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table th {
+  background: #ecf0f1;
+}
