@@ -1,4 +1,5 @@
 <!-- Hotel list -->
+ <template>
        <main>
       <section>
         <h2 class="hotel_heading">Chuỗi Khách sạn A25</h2>
@@ -21,7 +22,8 @@
         </div>
       </section>
     </main>
-    <script>
+  </template>
+    <script setup>
     import { ref, onMounted, onBeforeUnmount } from "vue"
 const hotels = ref([
   { id: 1, img: "../../src/assets/images/view6.png", name: "A25 Hotel - Hà Nội", city: "Hà Nội", short: "Khách sạn trung tâm, gần phố cổ.", price: "450.000" },

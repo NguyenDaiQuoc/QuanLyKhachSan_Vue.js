@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="site">
     <!-- Header -->
     <header class="site-header">
@@ -291,3 +292,7 @@ function decrement(type) {
 
 </style> -->
 
+=======
+  <router-view/>
+</template>
+>>>>>>> fc367a91c2769da4f5ca539f994b8dbc5385cce8

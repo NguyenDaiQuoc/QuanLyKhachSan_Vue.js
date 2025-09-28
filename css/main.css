@@ -318,6 +318,7 @@ html {
   color: #fff;
   padding: 4rem 2rem 2rem;
   font-family: "Montserrat", sans-serif;
+  margin-top: 40px;
 }
 .footer-inner {
   display: grid;

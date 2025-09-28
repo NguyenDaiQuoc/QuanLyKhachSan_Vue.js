@@ -1,35 +1,55 @@
+/* html { font-size:31.25%; } 1rem = 5px */
+
 /* Main content spacing */
-main.content { padding: 34px 0; flex:1; }
+main.content { padding: 4.08rem 0; flex:1; }
+
 /* Hotels list */
 .hotel-grid {
-  margin: 18px 50px 0;
+  margin: 2.16rem 6rem 0;
   display:grid;
-  gap:16px;
+  gap:1.92rem;
   grid-template-columns: repeat(3, 1fr);
 }
 .hotel-card {
   background: var(--card);
-  border-radius: 12px;
+  border-radius: 1.44rem; /* 12×0.6 */
   overflow: hidden;
   box-shadow: var(--shadow);
   display:flex;
   flex-direction: column;
 }
+
 .hotel-card .promo-grid{
   background: linear-gradient(180deg, #f7f9fb, #eefcfc);
   display:flex;
   align-items:flex-end;
-  padding:12px;
+  padding:1.44rem; /* 12×0.6 */
 }
-.hotel-card .meta { padding:12px 36px; flex:1; display:flex; flex-direction:column; }
-.hotel-card h3 { margin:0 0 6px; font-size:50px; }
-.hotel-card p { margin:0 0 12px; color:var(--muted); font-size:30px; flex:1; }
-.hotel-card .foot { display:flex; align-items:center; justify-content:space-between; padding-top:6px; }
-.hotel__price{font-size: 30px;}
+
+.brand img{
+  width: 100%;
+  height: 70%;
+}
+
+.hotel-card .meta {
+  padding:1.44rem 4.32rem; /* 12×0.6 36×0.6 */
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+.hotel-card h3 { margin:0 0 0.72rem; font-size:6rem; color:black } /* 50×0.6 */
+.hotel-card p { margin:0 0 1.44rem; color:var(--muted); font-size:3.6rem; flex:1; } /* 30×0.6 */
+.hotel-card .foot {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:0.72rem; /* 6×0.6 */
+}
+.hotel__price{font-size:3.6rem;} /* 30×0.6 */
 .meta .cta{
-  font-size: 30px;
+  font-size:3.6rem; /* 30×0.6 */
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 1.2rem 2.4rem; /* 10×0.6 20×0.6 */
   background-color: #0ea5a4;
   color: white;
 }
