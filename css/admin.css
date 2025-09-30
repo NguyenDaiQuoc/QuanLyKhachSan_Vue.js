@@ -1,3 +1,6 @@
+html{
+  font-size: 62,5%;
+}
 .admin-dashboard {
   display: flex;
   height: 100vh;
@@ -5,28 +8,34 @@
 }
 
 .sidebar {
-  width: 220px;
+  width: 32rem;           /* 220px -> 22rem */
   background: #2c3e50;
   color: #fff;
-  padding: 20px;
+  padding: 2rem;         /* 20px -> 2rem */
 }
 
 .sidebar h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
+  font-size: 3.5rem;       /* 20px -> 2rem */
+  margin-bottom: 2rem;   /* 20px -> 2rem */
 }
 
 .sidebar ul {
   list-style: none;
   padding: 0;
+  
 }
 
 .sidebar ul li {
-  padding: 10px;
+  padding: 1rem;         /* 10px -> 1rem */
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.5rem; /* 5px -> 0.5rem */
+  font-size: 2.5rem;
+  
 }
-
+.sidebar ul li a{
+  text-decoration: none;
+  color:#fff;
+}
 .sidebar ul li:hover,
 .sidebar ul li.active {
   background: #34495e;
@@ -35,7 +44,7 @@
 .main-content {
   flex: 1;
   background: #f4f6f8;
-  padding: 20px;
+  padding: 2rem;         /* 20px -> 2rem */
 }
 
 .header {
@@ -43,40 +52,50 @@
   justify-content: space-between;
   align-items: center;
   background: white;
-  padding: 10px 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
+  padding: 1rem 2rem;     /* 10px 20px -> 1rem 2rem */
+  margin-bottom: 2rem;    /* 20px -> 2rem */
+  border-radius: 0.8rem;  /* 8px -> 0.8rem */
 }
 
 .header h1 {
   margin: 0;
+  font-size: 3.5rem;
+  color:#000;
 }
 
 .logout {
   background: #e74c3c;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 0.8rem 1.2rem; /* 8px 12px -> 0.8rem 1.2rem */
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.5rem;  /* 5px -> 0.5rem */
+  font-size: 2rem;
 }
 
 .section {
   background: white;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 1.5rem;         /* 20px -> 2rem */
+  border-radius: 0.8rem; /* 8px -> 0.8rem */
+}
+.section h2 {
+  margin:1.5rem 0;
+  font-size: 3rem;       /* 24px -> 3rem */
+  color:#000;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
+  margin-top: 1.5rem;    /* 15px -> 1.5rem */
+  color:#000;
+  font-size: 2rem;
 }
 
 table th,
 table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border: 0.1rem solid #ddd; /* 1px -> 0.1rem */
+  padding: 0.8rem;           /* 8px -> 0.8rem */
 }
 
 table th {
