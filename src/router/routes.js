@@ -13,6 +13,7 @@ const routes = [
     children: [
       { path: '/room', name: 'room', component: room},
       { path:'/deal',name:'deal',component:deal },
+      { path:'/room/:id',name:'room-detail',component: () => import('../pages/rooms/Room_detail.vue')}
     ]
 
   },
