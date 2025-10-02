@@ -1,0 +1,217 @@
+CHƯƠNG 8: QUẢN LÝ STATE NÂNG CAO VỚI VUEX
+8.1 Lý thuyết
+State trong Vue là nơi lưu trữ dữ liệu dùng chung cho component. Khi ứng dụng lớn dần, việc truyền props qua nhiều cấp trở nên phức tạp.
+Vuex là thư viện quản lý state chính thức của Vue.js. Nó giúp tập trung quản lý dữ liệu chung của toàn ứng dụng thay vì truyền props/emits qua nhiều component.
+Vuex cung cấp:
+•	State: Nơi lưu dữ liệu.
+•	Getters: Lấy dữ liệu từ state (giống computed property).
+•	Mutations: Hàm đồng bộ để thay đổi state.
+•	Actions: Hàm bất đồng bộ để commit mutation.
+•	Modules: Chia nhỏ store thành các module riêng.
+ Vuex giúp bạn tránh “prop drilling” (truyền dữ liệu qua nhiều cấp), dễ debug và duy trì.
+8.2 Giải thích & Minh họa
+Ví dụ trong ứng dụng đặt phòng khách sạn, chúng ta muốn quản lý danh sách phòng và thông tin đặt phòng chung. Thay vì mỗi component tự quản lý, ta dùng Vuex store.
+Khi dùng Vuex:
+•	state chứa danh sách phòng.
+•	getters trả về danh sách phòng trống.
+•	mutations thêm/xóa phòng.
+•	actions fetch dữ liệu từ API.
+
+8.3 Code mẫu (Vuex Store)
+//Cài đặt Vuex:
+npm install vuex@next
+
+// store/index.js
+import { createStore } from 'vuex'
+import room from './modules/room'
+
+export default createStore({
+  modules: { room }
+})
+
+
+// store/modules/room.js
+const state = {
+  rooms: [], //Danh sách phòng
+  currentBooking: null // Phòng hiện tại đang đặt
+}
+
+const mutations = {
+  SET_ROOMS(state, rooms) {
+    state.rooms = rooms
+  },
+  SET_BOOKING(state, booking) {
+    state.currentBooking = booking
+  }
+}
+
+const actions = {
+  setRooms({ commit }, data) {
+    commit('SET_ROOMS', data)
+  },
+  setBooking({ commit }, booking) {
+    commit('SET_BOOKING', booking)
+  }
+}
+
+const getters = {
+  allRooms: (state) => state.rooms,
+  currentBooking: (state) => state.currentBooking
+}
+
+export default { state, mutations, actions, getters }
+
+//main.js:
+import { createApp } from 'vue'
+import App from './App.vue'
+import store from './store'
+
+const app = createApp(App)
+app.use(store)
+app.mount('#app')
+
+
+Sử dụng trong component:
+<template>
+  <div>
+    <h2>Danh sách phòng</h2>
+    <ul>
+      <li v-for="room in rooms" :key="room.id">
+        {{ room.name }} - 
+        <span>{{ room.available ? 'Trống' : 'Đã đặt' }}</span>
+        <button @click="toggle(room.id)">Đổi trạng thái</button>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
+
+export default {
+  setup() {
+    const store = useStore()
+    const rooms = computed(() => store.state.room.rooms)
+
+    onMounted(() => {
+      store.dispatch('fetchRooms')
+    })
+
+    const toggle = (id) => {
+      store.dispatch('toggleRoom', id)
+    }
+
+    return { rooms, toggle }
+  }
+}
+</script>
+8.4 Thực hành/Đồ án
+Trong đồ án, hãy tạo Vuex store quản lý danh sách phòng và đặt phòng. Khi chọn phòng ở trang A, thông tin sẽ tự đồng bộ sang trang B (xác nhận đặt).
+CHƯƠNG 9: TƯƠNG TÁC VỚI API (FETCHING DATA) BẰNG AXIOS
+9.1 Lý thuyết
+Fetching Data là việc lấy dữ liệu từ server (API) về ứng dụng.
+ Trong Vue, có thể gọi API trực tiếp trong component (onMounted) hoặc thông qua Vuex actions để dữ liệu tập trung, dễ quản lý.
+Ứng dụng Vue thường phải lấy dữ liệu từ server (API) và gửi dữ liệu mới lên server. Thư viện phổ biến để gọi API là Axios.
+Thường dùng: fetch, axios (tiện hơn khi có interceptors, baseURL…).
+9.2 Giải thích & Minh họa
+Ta có thể gọi API trong actions của Vuex để dữ liệu được đồng bộ toàn ứng dụng.
+9.3 Code mẫu (Vuex actions với Axios)
+Cài Axios:
+npm install axios
+
+// store/modules/room.js
+import axios from 'axios'
+
+const state = {
+  rooms: [],
+  loading: false,
+  error: null
+}
+
+const mutations = {
+  SET_ROOMS(state, rooms) {
+    state.rooms = rooms
+  },
+  SET_LOADING(state, status) {
+    state.loading = status
+  },
+  SET_ERROR(state, error) {
+    state.error = error
+  }
+}
+
+const actions = {
+  async fetchRooms({ commit }) {
+    commit('SET_LOADING', true)
+    commit('SET_ERROR', null)
+    try {
+      const res = await axios.get('/api/rooms')
+      commit('SET_ROOMS', res.data)
+    } catch (err) {
+      commit('SET_ERROR', 'Không thể tải danh sách phòng')
+    } finally {
+      commit('SET_LOADING', false)
+    }
+  },
+  async addRoom({ commit, dispatch }, newRoom) {
+    commit('SET_LOADING', true)
+    try {
+      await axios.post('/api/rooms', newRoom)
+      dispatch('fetchRooms')
+    } catch (err) {
+      commit('SET_ERROR', 'Không thể thêm phòng mới')
+    } finally {
+      commit('SET_LOADING', false)
+    }
+  }
+}
+
+const getters = {
+  availableRooms: (state) => state.rooms.filter(r => r.available),
+  isLoading: (state) => state.loading,
+  error: (state) => state.error
+}
+
+export default { state, mutations, actions, getters }
+
+Sử dụng trong component:
+<template>
+  <div>
+    <h2>Danh sách phòng</h2>
+    <div v-if="loading">Đang tải dữ liệu...</div>
+    <div v-if="error" class="error">{{ error }}</div>
+    <ul v-else>
+      <li v-for="room in rooms" :key="room.id">
+        {{ room.name }} - <span>{{ room.available ? 'Trống' : 'Đã đặt' }}</span>
+      </li>
+    </ul>
+    <button @click="fetch">Tải lại danh sách</button>
+  </div>
+</template>
+
+<script>
+import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
+
+export default {
+  setup() {
+    const store = useStore()
+    const rooms = computed(() => store.state.room.rooms)
+    const loading = computed(() => store.state.room.loading)
+    const error = computed(() => store.state.room.error)
+
+    onMounted(() => {
+      store.dispatch('fetchRooms')
+    })
+
+    const fetch = () => {
+      store.dispatch('fetchRooms')
+    }
+
+    return { rooms, loading, error, fetch }
+  }
+}
+</script>
+9.4 Thực hành/Đồ án
+Trong đồ án, hãy xây dựng các action Vuex gọi API để lấy danh sách phòng, thêm phòng mới, hoặc lấy thông tin khách hàng. Hiển thị trạng thái loading và thông báo lỗi để giao diện thân thiện hơn.
