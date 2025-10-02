@@ -7,6 +7,7 @@ import '../css/Deals.css'
 import '../css/booking.css'
 import '../css/room_detail_layout.css'
 import '../css/customer_layout.css'
+import '../css/room_detail.css'
 import App from './App.vue' // App.vue trong cùng thư mục
 import router from './router/routes.js'
 createApp(App).mount('#app')
