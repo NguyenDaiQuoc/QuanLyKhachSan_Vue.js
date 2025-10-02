@@ -11,11 +11,22 @@
     <div class="wrapper">
         <div class="view-info">
             <h2>{{ viewData?.name  }}</h2>
-            <p>{{ viewData?.desc  }}</p>
-            <p>Giá: {{ viewData?.price  }}₫/đêm</p>
+            <!-- <p>{{ viewData?.desc  }}</p>
+            <p>Giá: {{ viewData?.price  }}₫/đêm</p> -->
         </div>
         <div class="view-images">
             <img v-if="viewData?.img" :src="getImg(viewData.img)" :alt="viewData?.name" />
+        </div>
+        <div class="view-thumbnail">
+            <button class="btn-nav-left">
+                <img src="../../assets/images/arrow-left.png" alt="Previous" />
+            </button>
+            <div class="thumbnails">
+                <img v-for="n in 4" :key="n" :src="getImg(viewData.img)" :alt="`Hình ảnh ${n}`" />
+            </div>
+            <button class="btn-nav-right">
+                <img src="../../assets/images/arrow-right.png" alt="Next" />
+            </button>
         </div>
         <div class="view-description">
             <h2>Mô tả phòng</h2>

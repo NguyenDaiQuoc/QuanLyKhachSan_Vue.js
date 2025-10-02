@@ -3,43 +3,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-/* .room-detail {
-  padding: 2rem;
-  font-size: 24px;
-  font-family: 'shadow into light,sans-serif';
-}
 
-.room-info {
-  margin-bottom: 2rem;
-    text-align: center;
-    font-size: 18px;
-}
-
-.room-images {
-  display: flex;
-  gap: 1rem;
-
-}
-
-.room-images img {
-  width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-}
-.room-description {
-  font-size: 1rem;
-  line-height: 1.5;
-} */
 .breadcrumb{
     margin: 20px 0;
     font-size: 18px;
 }
 
-.room-detail {
+.view-detail {
     padding: 20px;
     font-size: 28px;
     font-weight: bold;
-    font-family: 'great vibes', cursive;
+    font-family: arial, cursive;
     text-align: center;
 }
 .wrapper {
@@ -47,93 +21,85 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Pacifico', cursive;
+    font-family: arial, sans-serif;
     font-size: 18px;
     float: left;
     display: grid;
     grid-template-columns: 1fr;
 }
 
-
-/* 
-.wrapper img {
-    width: 300px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 20px;
-}
-
-.wrapper .room-images {
+.wrapper .view-info{
     display: flex;
+    flex-direction: column;
     gap: 15px;
     margin-top: 20px;
-    justify-content: center;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
 }
-.wrapper .room-images img {
-    width: 200px;
-    height: 150px;
+
+.wrapper .view-info h2{
+    font-size: 32px;
+    color: #fff;
+    font-family: 'Shadow Into Light', cursive;
+}
+
+.wrapper .view-images img{
+    width: 85%;
+    height: 70%;
+    display: flex;
+
+}
+
+ .wrapper .view-thumbnail {
+    margin-top: 20px;
+    width: 85%;
+    display: flex;
+    float: left;
+} 
+
+.wrapper .view-thumbnail .thumbnails {
+    display: flex;
+    gap: 10px;
+    width: 85%;
+    margin: 5px;
+    justify-content: flex-start;
+}
+
+.wrapper .view-thumbnail .thumbnails img {
+    width: 120px;
+    height: 80px;
     object-fit: cover;
     border-radius: 8px;
-}
-.wrapper .room-description {
-    margin-top: 20px;
-    line-height: 1.6;
-    font-size: 18px;
-    text-align: justify;
-    font-family: 'Satisfy', cursive;
+    cursor: pointer;
+   
 }
 
-.wrapper .room-price {
-    margin-top: 20px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #e91e63;
-    text-align: center;
-    font-family: 'Shadow Into Light', cursive;
+.wrapper .view-thumbnail .thumbnails img:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
-.wrapper .room-amenities {
-    margin-top: 20px;
-    font-size: 18px;
-    list-style-type: disc;
-    padding-left: 20px;
-    font-family: 'Indie Flower', cursive;
+.wrapper .view-thumbnail .btn-nav-left, .wrapper .view-thumbnail .btn-nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 25px;
+
 }
 
-.wrapper .room-amenities li {
-    margin-bottom: 10px;
-}
-
-.wrapper .room-amenities li::marker {
-    color: #e91e63;
-    font-size: 20px;
-}
-
-.wrapper .room-amenities li:hover {
-    color: #ff4081;
+.wrapper .view-thumbnail .btn-nav-left img, .wrapper .view-thumbnail .btn-nav-right img {
+    width: 30px;
+    height: 30px;
     cursor: pointer;
 }
-
-.wrapper .room-amenities li:hover::marker {
-    color: #ff4081;
-}
-
-.wrapper .book-now {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 18px;
-    font-family: 'Shadow Into Light', cursive;
-} */
-
-/* .clear {
-    clear: both;
-} */
 
 .order {
     font-size: 18px;
@@ -145,7 +111,7 @@
     margin-top: 20px;
     float: left;
     height: 500px;
-    font-family: 'Indie Flower', cursive;
+    font-family: pacifico, cursive;
     text-align: center;
     line-height: 1.5;
     font-weight: bold;
@@ -162,7 +128,7 @@
     margin-top: 20px;
     text-align: left;
     font-size: 18px;
-    font-family: 'Satisfy', cursive;
+    font-family: pacifico, cursive;
     font-weight: bold;
     color: #fff;
 }

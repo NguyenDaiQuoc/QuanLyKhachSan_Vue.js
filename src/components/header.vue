@@ -37,7 +37,7 @@
 
       <div class="container co">
         <div class="hero-wrap">
-          <h1>A25 Hotel — Hệ thống khách sạn hàng đầu</h1>
+          <h1>Aura Hotel — Hệ thống khách sạn hàng đầu</h1>
           <p>Đặt phòng nhanh chóng — Giá tốt — Vị trí trung tâm</p>
 
           <form @submit.prevent="onSearch" class="search-form">
