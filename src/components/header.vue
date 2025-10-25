@@ -23,7 +23,64 @@
       </div>
     </header>
 
+<<<<<<< HEAD
    
+=======
+    <!-- Hero / Search -->
+    <section class="hero">
+      <!-- Slideshow -->
+      <div class="slideshow">
+        <div 
+          v-for="(slide, idx) in slidesData" 
+          :key="idx" 
+          class="slide" 
+          :class="{ active: current === idx }"
+          :style="{ backgroundImage: `url(${slide})` }"
+        ></div>
+      </div>
+
+      <div class="container co">
+        <div class="hero-wrap">
+          <h1>Aura Hotel — Hệ thống khách sạn hàng đầu</h1>
+          <p>Đặt phòng nhanh chóng — Giá tốt — Vị trí trung tâm</p>
+
+          <form @submit.prevent="onSearch" class="search-form">
+            <div class="search-field">
+              <label>Ngày nhận</label>
+              <input ref="checkinEl" type="text" placeholder="Ngày nhận" />
+            </div>
+
+            <div class="search-field">
+              <label>Ngày trả</label>
+              <input ref="checkoutEl" type="text" placeholder="Ngày trả" />
+            </div>
+
+            <div class="search-field">
+              <label>Người lớn</label>
+              <div class="number-input">
+                <button type="button" @click="decrement('adults')" class="btn-dec">-</button>
+                <input type="text" v-model="adults" readonly />
+                <button type="button" @click="increment('adults')" class="btn-inc">+</button>
+              </div>
+            </div>
+
+            <div class="search-field">
+              <label>Trẻ em</label>
+              <div class="number-input">
+                <button type="button" @click="decrement('children')" class="btn-dec">-</button>
+                <input type="text" v-model="children" readonly />
+                <button type="button" @click="increment('children')" class="btn-inc">+</button>
+              </div>
+            </div>
+
+            <div class="search-field">
+              <button type="submit" class="btn btn-primary">Tìm phòng</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+>>>>>>> 542178101f3338d17a3b991c9c6d7dabda265b1b
 
     
   </div>

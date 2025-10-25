@@ -19,8 +19,8 @@
       <h4>Liên kết nhanh</h4>
       <ul>
         <li><a href="#">Home</a></li>
-        <li><a href="#">Ưu Đãi</a></li>
-        <li><a href="#">Dịch Vụ</a></li>
+        <li><a href="/deal">Ưu Đãi</a></li>
+        <li><a href="/room">Đặt phòng</a></li>
         <li><a href="#">Tin Tức</a></li>
         <li><a href="#">Tuyển Dụng</a></li>
         <li><a href="#">Liên hệ</a></li>

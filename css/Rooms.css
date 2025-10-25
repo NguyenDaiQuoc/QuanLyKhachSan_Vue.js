@@ -11,6 +11,7 @@ main.content { padding: 4.08rem 0; flex:1; }
   grid-template-columns: repeat(3, 1fr);
 }
 .hotel-card {
+  height: auto;
   background: var(--card);
   border-radius: 1.44rem; /* 12×0.6 */
   overflow: hidden;
@@ -21,14 +22,31 @@ main.content { padding: 4.08rem 0; flex:1; }
 
 .hotel-card .promo-grid{
   background: linear-gradient(180deg, #f7f9fb, #eefcfc);
-  display:flex;
+  display:contents;
   align-items:flex-end;
   padding:1.44rem; /* 12×0.6 */
 }
 
+.hotel-card .brand :hover{
+  transform: scale(1.05);
+  transition: transform 0.6s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.hotel-card .see_button :hover{
+  transform: translateY(-5px);
+  background: #ff3b2f;
+  border-color: #ff3b2f;
+}
+
+.brand{
+  width:100%;
+  height:250px;
+  overflow:hidden;
+}
 .brand img{
   width: 100%;
-  height: 70%;
+  height: 100%;
 }
 
 .hotel-card .meta {
@@ -45,11 +63,29 @@ main.content { padding: 4.08rem 0; flex:1; }
   justify-content:space-between;
   padding-top:0.72rem; /* 6×0.6 */
 }
-.hotel__price{font-size:3.6rem;} /* 30×0.6 */
+
+.hotel__price{font-size:3.6rem;color: #000} /* 30×0.6 */
 .meta .cta{
   font-size:3.6rem; /* 30×0.6 */
   text-decoration: none;
   padding: 1.2rem 2.4rem; /* 10×0.6 20×0.6 */
   background-color: #0ea5a4;
   color: white;
+  border-radius: 0.48rem; /* 4×0.6 */ 
+  border: 2px solid #0ea5a4; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-family: 'Arial', cursive;
+  text-align: center;
+  letter-spacing: 0.05rem;
+  cursor: pointer;
+  margin-left: 10px;
+  
+}
+
+.meta .cta:hover{
+  background-color: #0ea5a4;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transform: translateY(-3px);
+  transition: all 0.3s ease;
+  
 }

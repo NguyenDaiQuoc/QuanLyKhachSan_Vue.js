@@ -17,6 +17,8 @@ const routes = [
       { path:'/deal',name:'deal',component:deal },
       {path:'/lienhe',name:'lienhe',component:lienHe},
       {path:'/tuyendung',name:'tuyendung',component:recruit},
+      { path:'/room/:id',name:'room-detail',component: () => import('../pages/rooms/Room_detail.vue')}
+
     ]
 
   },
