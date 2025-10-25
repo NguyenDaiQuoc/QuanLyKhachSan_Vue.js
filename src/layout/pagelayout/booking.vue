@@ -2,9 +2,24 @@
   <section class="section">
     <div class="header">
       <h2>Danh sách đặt phòng</h2>
-      <input type="text" v-model="searchQuery" placeholder="Tìm kiếm theo khách hàng, phòng, trạng thái..." class="search-input"/>
-      <button class="btn add" @click="openAdd">+ Thêm đặt phòng</button>
+       <button class="btn add" @click="openAdd">+ Thêm đặt phòng</button>
     </div>
+     <!-- Thanh tìm kiếm và lọc -->
+      <div class="filters">
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="🔍 Tìm kiếm theo khách hàng, phòng, trạng thái..."
+          class="search-input"
+        />
+        <select v-model="filterStatus" class="filter-select">
+          <option value="">-- Tất cả trạng thái --</option>
+          <option value="Chưa nhận">Chưa nhận</option>
+          <option value="Đã nhận">Đã nhận</option>
+          <option value="Đã hủy">Đã hủy</option>
+        </select>
+       
+      </div>
 
     <table>
       <thead>
@@ -30,7 +45,7 @@
           <td>{{ b.children }}</td>
           <td>{{ b.checkIn }}</td>
           <td>{{ b.checkOut }}</td>
-          <td>{{ b.total }} ₫</td>
+          <td>{{ b.total.toLocaleString() }} ₫</td>
           <td :class="statusClass(b.status)">{{ b.status }}</td>
           <td>
             <button class="btn edit" @click="openEdit(b)">Sửa</button>
@@ -66,7 +81,7 @@
           <div class="form-row">
             <label>Phòng</label>
             <select v-model="form.room" required>
-              <option v-for="r in rooms" :key="r.id" :value="r.name">{{ r.name }} ({{ r.price }} ₫/đêm)</option>
+              <option v-for="r in rooms" :key="r.id" :value="r.name">{{ r.name }} ({{ r.price.toLocaleString() }} ₫/đêm)</option>
             </select>
           </div>
 
@@ -101,7 +116,7 @@
 
           <div class="form-row">
             <label>Tổng tiền</label>
-            <input :value="calculateTotal()" readonly />
+            <input :value="calculateTotal().toLocaleString() + ' ₫'" readonly />
           </div>
         </form>
       </div>
@@ -125,7 +140,8 @@ const rooms = ref([
 ])
 
 const bookings = ref([
-  { id: "DP001", customer: "Nguyễn Văn A", room: "101", adults: 2, children: 1, checkIn: "2025-10-01", checkOut: "2025-10-05", total: 2000000, status: "Chưa nhận" }
+  { id: "DP001", customer: "Nguyễn Văn A", room: "101", adults: 2, children: 1, checkIn: "2025-10-01", checkOut: "2025-10-05", total: 2000000, status: "Chưa nhận" },
+  { id: "DP002", customer: "Trần Thị B", room: "102", adults: 1, children: 0, checkIn: "2025-10-03", checkOut: "2025-10-04", total: 600000, status: "Đã nhận" }
 ])
 
 const showModal = ref(false)
@@ -146,17 +162,19 @@ const checkOutRef = ref(null)
 let checkInPicker = null
 let checkOutPicker = null
 
-const searchQuery = ref('')
-
-// Computed lọc booking
+// Tìm kiếm + lọc
+const searchQuery = ref("")
+const filterStatus = ref("")
 const filteredBookings = computed(() => {
-  if (!searchQuery.value) return bookings.value
-  const q = searchQuery.value.toLowerCase()
-  return bookings.value.filter(b =>
-    b.customer.toLowerCase().includes(q) ||
-    b.room.toLowerCase().includes(q) ||
-    b.status.toLowerCase().includes(q)
-  )
+  return bookings.value.filter(b => {
+    const matchSearch =
+      b.customer.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      b.room.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      b.status.toLowerCase().includes(searchQuery.value.toLowerCase())
+
+    const matchStatus = filterStatus.value ? b.status === filterStatus.value : true
+    return matchSearch && matchStatus
+  })
 })
 
 function openAdd() {
@@ -175,6 +193,10 @@ function openEdit(b) {
 
 function saveBooking() {
   const total = calculateTotal()
+  if (!form.value.checkIn || !form.value.checkOut) {
+    alert("Vui lòng chọn ngày nhận và ngày trả")
+    return
+  }
   if (isEditing.value) {
     const idx = bookings.value.findIndex(b => b.id === form.value.id)
     if (idx !== -1) bookings.value[idx] = { ...form.value, total }
@@ -222,3 +244,10 @@ function statusClass(status) {
   return ""
 }
 </script>
+
+<style scoped>
+
+.status-pending { color: orange; }
+.status-confirmed { color: green; }
+.status-cancelled { color: red; }
+</style>

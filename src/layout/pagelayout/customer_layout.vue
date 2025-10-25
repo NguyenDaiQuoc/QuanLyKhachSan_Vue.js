@@ -5,6 +5,20 @@
       <button class="btn add" @click="openAdd">+ Thêm khách hàng</button>
     </div>
 
+    <!-- Thanh tìm kiếm và lọc -->
+    <div class="filters">
+      <input
+        v-model="searchTerm"
+        placeholder="🔍 Tìm kiếm theo tên, email, SĐT..."
+        class="search-input"
+      />
+      <select v-model="filterStatus" class="filter-select">
+        <option value="">-- Tất cả trạng thái --</option>
+        <option value="Hoạt động">Hoạt động</option>
+        <option value="Khóa">Khóa</option>
+      </select>
+    </div>
+
     <table>
       <thead>
         <tr>
@@ -20,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="cus in customers" :key="cus.id">
+        <tr v-for="cus in filteredCustomers" :key="cus.id">
           <td>{{ cus.id }}</td>
           <td>{{ cus.name }}</td>
           <td>{{ cus.email }}</td>
@@ -28,7 +42,7 @@
           <td>{{ cus.citizenId }}</td>
           <td>{{ cus.dob }}</td>
           <td>{{ cus.address }}</td>
-          <td>{{ cus.status }}</td>
+          <td :class="statusClass(cus.status)">{{ cus.status }}</td>
           <td>
             <button class="btn edit" @click="openEdit(cus)">Sửa</button>
           </td>
@@ -51,7 +65,8 @@
       <form class="form-grid" @submit.prevent="saveCustomer">
         <div class="form-row">
           <label>Mã KH</label>
-          <input v-model="form.id" required />
+          <!-- readonly không cho sửa -->
+          <input v-model="form.id" readonly />
         </div>
 
         <div class="form-row">
@@ -66,12 +81,21 @@
 
         <div class="form-row">
           <label>SĐT</label>
-          <input type="text" v-model="form.phone" required />
+          <input
+            type="text"
+            v-model="form.phone"
+            @blur="validateNumber('SĐT', form.phone, 10)"
+            required
+          />
         </div>
 
         <div class="form-row">
           <label>CCCD/CMND</label>
-          <input type="text" v-model="form.citizenId" />
+          <input
+            type="text"
+            v-model="form.citizenId"
+            @blur="validateNumber('CCCD', form.citizenId, 12)"
+          />
         </div>
 
         <div class="form-row">
@@ -97,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from "vue"
+import { ref, nextTick, computed } from "vue"
 import flatpickr from "flatpickr"
 import "flatpickr/dist/flatpickr.css"
 
@@ -139,13 +163,40 @@ const form = ref({
   status: "Hoạt động"
 })
 
+// tìm kiếm + lọc
+const searchTerm = ref("")
+const filterStatus = ref("")
+
+const filteredCustomers = computed(() => {
+  return customers.value.filter(cus => {
+    const matchSearch =
+      cus.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      cus.email.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      cus.phone.includes(searchTerm.value)
+
+    const matchStatus = filterStatus.value
+      ? cus.status === filterStatus.value
+      : true
+
+    return matchSearch && matchStatus
+  })
+})
+
 const dobRef = ref(null)
 let dobPicker = null
+
+// Sinh mã KH tự động (KH003, KH004...)
+function generateCustomerId() {
+  if (customers.value.length === 0) return "KH001"
+  const lastId = customers.value[customers.value.length - 1].id
+  const num = parseInt(lastId.replace("KH", "")) + 1
+  return "KH" + num.toString().padStart(3, "0")
+}
 
 function openAdd() {
   isEditing.value = false
   form.value = {
-    id: "",
+    id: generateCustomerId(), // tự sinh mã KH
     name: "",
     email: "",
     phone: "",
@@ -165,16 +216,6 @@ function openEdit(cus) {
   nextTick(initDobPicker)
 }
 
-function saveCustomer() {
-  if (isEditing.value) {
-    const idx = customers.value.findIndex(c => c.id === form.value.id)
-    if (idx !== -1) customers.value[idx] = { ...form.value }
-  } else {
-    customers.value.push({ ...form.value })
-  }
-  closeModal()
-}
-
 function closeModal() {
   showModal.value = false
 }
@@ -189,8 +230,63 @@ function initDobPicker() {
     }
   })
 }
+
+function validateNumber(field, value, minLength) {
+  // chỉ cho phép số
+  if (!/^[0-9]+$/.test(value)) {
+    alert(`${field} chỉ được nhập số!`)
+    return false
+  }
+
+  // không cho số nhỏ hơn hoặc bằng 0
+  if (parseInt(value) <= 0) {
+    alert(`${field} phải lớn hơn 0!`)
+    return false
+  }
+
+  // kiểm tra độ dài tối thiểu (nếu có)
+  if (minLength && value.length < minLength) {
+    alert(`${field} phải có ít nhất ${minLength} số!`)
+    return false
+  }
+
+  return true
+}
+
+function saveCustomer() {
+  // validate trước khi lưu
+  if (
+    !validateNumber("SĐT", form.value.phone, 10) ||
+    !validateNumber("CCCD", form.value.citizenId, 12)
+  ) {
+    return // dừng lại, không lưu
+  }
+
+  if (isEditing.value) {
+    const idx = customers.value.findIndex(c => c.id === form.value.id)
+    if (idx !== -1) customers.value[idx] = { ...form.value }
+  } else {
+    customers.value.push({ ...form.value })
+  }
+  closeModal()
+}
+
+// CSS đổi màu trạng thái
+function statusClass(status) {
+  if (status === "Hoạt động") return "status-active"
+  if (status === "Khóa") return "status-inactive"
+  return ""
+}
 </script>
 
 <style scoped>
 
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+.status-inactive {
+  color: red;
+  font-weight: bold;
+}
 </style>

@@ -7,12 +7,16 @@ import AdminRoom from "../layout/pagelayout/room_detail_layout.vue"
 import AdminCustomer from "../layout/pagelayout/customer_layout.vue"
 import AdminDeals from "../layout/pagelayout/deals.vue"
 import AdminBooking from "../layout/pagelayout/booking.vue"
+import lienHe from '../pages/lienhe/lienHe.vue'
+import recruit from '../pages/recruitment/recruit.vue'
 const routes = [
   {path:'/',
     component:home,
     children: [
       { path: '/room', name: 'room', component: room},
       { path:'/deal',name:'deal',component:deal },
+      {path:'/lienhe',name:'lienhe',component:lienHe},
+      {path:'/tuyendung',name:'tuyendung',component:recruit},
     ]
 
   },

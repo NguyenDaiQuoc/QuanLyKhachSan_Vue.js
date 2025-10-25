@@ -4,6 +4,20 @@
       <h2>Danh sách ưu đãi</h2>
       <button class="btn add" @click="openAdd">+ Thêm ưu đãi</button>
     </div>
+    <!-- Thanh tìm kiếm + lọc -->
+    <div class="filters">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="🔍 Tìm kiếm theo tên ưu đãi..."
+        class="search-input"
+      />
+      <select v-model="filterStatus" class="filter-select">
+        <option value="">-- Tất cả trạng thái --</option>
+        <option value="Hoạt động">Hoạt động</option>
+        <option value="Ngừng">Ngừng</option>
+      </select>
+    </div>
 
     <table>
       <thead>
@@ -19,14 +33,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="promo in promotions" :key="promo.id">
+        <tr v-for="promo in filteredPromotions" :key="promo.id">
           <td>{{ promo.id }}</td>
           <td>{{ promo.name }}</td>
           <td>{{ promo.discount }}</td>
           <td>{{ promo.startDate }}</td>
           <td>{{ promo.endDate }}</td>
           <td>{{ promo.description }}</td>
-          <td>{{ promo.status }}</td>
+          <td>
+            <span :class="['badge', statusClass(promo.status)]">
+              {{ promo.status }}
+            </span>
+          </td>
           <td>
             <button class="btn edit" @click="openEdit(promo)">Sửa</button>
           </td>
@@ -90,12 +108,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, nextTick } from "vue"
+import { ref, computed, nextTick } from "vue"
 import flatpickr from "flatpickr"
 import "flatpickr/dist/flatpickr.css"
 
 const currentTab = ref("promotions")
 
+// Dữ liệu mẫu
 const promotions = ref([
   {
     id: "UD001",
@@ -133,6 +152,17 @@ const startDateRef = ref(null)
 const endDateRef = ref(null)
 let startPicker = null
 let endPicker = null
+
+// Tìm kiếm + lọc
+const searchQuery = ref("")
+const filterStatus = ref("")
+const filteredPromotions = computed(() => {
+  return promotions.value.filter(p => {
+    const matchSearch = p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const matchStatus = filterStatus.value ? p.status === filterStatus.value : true
+    return matchSearch && matchStatus
+  })
+})
 
 function openAdd() {
   isEditing.value = false
@@ -190,5 +220,30 @@ function initPickers() {
     }
   })
 }
+
+// CSS màu trạng thái
+function statusClass(status) {
+  if (status === "Hoạt động") return "status-active"
+  if (status === "Ngừng") return "status-inactive"
+  return ""
+}
 </script>
 
+<style scoped>
+
+
+/* Badge */
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.status-active {
+  background: #d4edda;
+  color: #155724;
+}
+.status-inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+</style>

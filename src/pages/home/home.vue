@@ -1,5 +1,6 @@
 <template>
     <Header />
+    
     <Intro v-if="isHomePage"/>
       <router-view /> <!-- Nội dung các trang con sẽ hiển thị ở đây -->
   
