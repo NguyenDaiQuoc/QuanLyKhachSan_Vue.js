@@ -22,10 +22,7 @@
         </div>
       </div>
     </header>
-
-<<<<<<< HEAD
    
-=======
     <!-- Hero / Search -->
     <section class="hero">
       <!-- Slideshow -->
@@ -80,7 +77,6 @@
         </div>
       </div>
     </section>
->>>>>>> 542178101f3338d17a3b991c9c6d7dabda265b1b
 
     
   </div>
