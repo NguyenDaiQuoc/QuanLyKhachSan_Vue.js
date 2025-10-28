@@ -12,6 +12,7 @@ import '../css/booking.css'
 import '../css/room_detail_layout.css'
 import '../css/customer_layout.css'
 import '../css/room_detail.css'
+import '../css/DanhSachPhong.css'
 
 const app = createApp(App)
 app.use(router)
