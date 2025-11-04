@@ -1,4 +1,5 @@
 <template>
+  <h1>Danh sách phòng</h1>
   <div class="container mx-auto p-6">
     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Danh sách phòng</h2>
 

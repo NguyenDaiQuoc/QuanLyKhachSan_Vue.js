@@ -24,8 +24,8 @@
     </header>
    
     <!-- Hero / Search -->
-    <section class="hero">
-      <!-- Slideshow -->
+    <!-- <section class="hero">
+      Slideshow
       <div class="slideshow">
         <div 
           v-for="(slide, idx) in slidesData" 
@@ -76,7 +76,7 @@
           </form>
         </div>
       </div>
-    </section>
+    </section> -->
 
     
   </div>

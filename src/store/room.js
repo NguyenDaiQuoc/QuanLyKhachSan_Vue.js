@@ -41,7 +41,7 @@ export default {
                         name: 'Phòng A103',
                         price: 650000,
                         available: true,
-                        image: '/images/view3.png'
+                        image: './src/assets/images/view3.png'
                     }
                 ]
                 await new Promise(r => setTimeout(r, 500))
