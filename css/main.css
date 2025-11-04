@@ -70,7 +70,7 @@ html {
   align-items: center;
   justify-content: space-between;
   padding: 1.8rem 6rem;
-  height: 128px;
+  height: 65px;
 }
 .logo { display: flex; align-items: center; gap: 1.2rem; }
 .logo__brand {
