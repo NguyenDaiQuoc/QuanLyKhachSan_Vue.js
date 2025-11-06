@@ -3,6 +3,7 @@ import home from '../pages/home/home.vue'
 import room from '../pages/rooms/Rooms.vue'
 import room_detail from '../pages/rooms/Room_detail.vue'
 import deal from '../pages/deals/Deals.vue'
+import order from '../pages/order/OrderRoom.vue'
 import AdminLayout from "../layout/pagelayout/admin_layout.vue" 
 import AdminRoom from "../layout/pagelayout/room_detail_layout.vue"
 import AdminCustomer from "../layout/pagelayout/customer_layout.vue"
@@ -19,7 +20,8 @@ const routes = [
       {path:'/lienhe',name:'lienhe',component:lienHe},
       {path:'/tuyendung',name:'tuyendung',component:recruit},
       // { path:'/room/:id',name:'room-detail',component: () => import('../pages/rooms/Room_detail.vue')}
-      {path: 'room/:id',name:'room_detail',component: room_detail,props: true}
+      {path: 'room/:id',name:'room_detail',component: room_detail,props: true},
+      {path:'/order',name:'order',component:order }
     ]
 
   },
