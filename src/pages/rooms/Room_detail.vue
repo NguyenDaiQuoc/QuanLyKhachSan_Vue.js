@@ -42,7 +42,7 @@
           <label for="children">Trẻ em:</label>
           <input type="number" id="children" v-model="children" min="0" max="10" required />
         </div>
-
+         <p>Tổng tiền: <strong>{{ totalPrice.toLocaleString() }}</strong> VND</p>
         <button type="submit">Đặt ngay</button>
       </form>
     </div>
@@ -69,23 +69,60 @@ onMounted(() => {
   }
 })
 
-// 🧾 Các biến lấy từ form
+// Dữ liệu form
 const checkin = ref('')
 const checkout = ref('')
 const adults = ref(1)
 const children = ref(0)
 
-// 🧭 Hàm xử lý khi nhấn "Đặt ngay"
+// 🔹 Tính số ngày ở
+const stayDays = computed(() => {
+  if (!checkin.value || !checkout.value) return 0
+  const checkinDate = new Date(checkin.value)
+  const checkoutDate = new Date(checkout.value)
+  const diff = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)
+  return diff > 0 ? diff : 0
+})
+
+// 🔹 Tính số ngày đặt trước
+const daysBeforeBooking = computed(() => {
+  if (!checkin.value) return 0
+  const today = new Date()
+  const checkinDate = new Date(checkin.value)
+  const diff = (checkinDate - today) / (1000 * 60 * 60 * 24)
+  return Math.floor(diff)
+})
+
+// 🔹 Xác định phần trăm giảm giá
+const discountPercent = computed(() => {
+  if (stayDays.value >= 7) return 20
+  if (stayDays.value >= 6 && daysBeforeBooking.value >= 6) return 15
+  if (stayDays.value >= 3 && stayDays.value <= 5) return 10
+  return 0
+})
+
+// 🔹 Tổng tiền sau giảm giá
+const totalPrice = computed(() => {
+  if (!room.value || stayDays.value === 0) return 0
+  const total = room.value.price * stayDays.value
+  const discount = (total * discountPercent.value) / 100
+  return total - discount
+})
+
+// 🧭 Khi nhấn đặt phòng
 const handleBooking = (e) => {
   e.preventDefault()
 
-  // Kiểm tra hợp lệ đơn giản
   if (!checkin.value || !checkout.value) {
     alert('Vui lòng chọn ngày nhận và trả phòng!')
     return
   }
 
-  // Điều hướng sang trang /order và gửi dữ liệu qua query params
+  if (stayDays.value <= 0) {
+    alert('Ngày trả phòng phải sau ngày nhận phòng!')
+    return
+  }
+
   router.push({
     path: '/order',
     query: {
@@ -95,7 +132,10 @@ const handleBooking = (e) => {
       checkin: checkin.value,
       checkout: checkout.value,
       adults: adults.value,
-      children: children.value
+      children: children.value,
+      stayDays: stayDays.value,
+      discount: discountPercent.value,
+      total: totalPrice.value
     }
   })
 }
@@ -145,7 +185,7 @@ p {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   float: left;
-  height: 500px;
+  height: 600px;
   font-family: roboto, cursive;
   text-align: center;
   line-height: 1.5;
@@ -194,6 +234,10 @@ p {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.order p{
+  color:#fff;
 }
 
 .p-6 {

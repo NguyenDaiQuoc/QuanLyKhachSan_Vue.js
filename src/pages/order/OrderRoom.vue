@@ -5,9 +5,12 @@
     <p><b>Giá:</b> {{ route.query.price }} VND</p>
     <p><b>Ngày nhận phòng:</b> {{ route.query.checkin }}</p>
     <p><b>Ngày trả phòng:</b> {{ route.query.checkout }}</p>
+    <p><b>Tổng tiền:</b> {{ Number(route.query.total).toLocaleString() }} VND</p>
     <p><b>Người lớn:</b> {{ route.query.adults }}</p>
     <p><b>Trẻ em:</b> {{ route.query.children }}</p>
+    <router-link style="text-decoration: none;color:#fff;font-weight: bold;text-transform: uppercase;background-color:rgb(173 141 141);" to="/">Xác nhận thông tin</router-link>
   </div>
+  
 </template>
 
 <script setup>
@@ -23,7 +26,7 @@ const store = useStore()
 <style scoped>
 .order-page {
   width: 800px;
-  height:800px;
+  height:850px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
